@@ -1,12 +1,24 @@
 var vapor = require('vapor');
 var steamID = require("steamid");
+var csgo = require("csgo");
 var steamTotp = require('steam-totp');
 var fs = require('fs');
 var protos = require("./protos/protos.js");
+var matchid = 8;
 
-if (!process.argv[3]) {
-    console.log("Usage: node report.js [config file] [id]");
+if (process.argv.length < 4) {
+    console.log("Usage: node report.js [config file] [id] (matchid)");
     process.exit();
+}
+
+console.log("[INFO] Account: " + process.argv[2].substring(6, process.argv[2].length - 5));
+console.log("[INFO] SteamID: " + process.argv[3]);
+
+if(process.argv.length == 5) {
+    var sharecode = new csgo.SharecodeDecoder(process.argv[4]).decode();
+    matchid = sharecode.matchId;
+    console.log("[INFO] Sharecode: " + process.argv[4]);
+    console.log("[INFO] MatchID: " + matchid);
 }
 
 // Create our config object
@@ -110,7 +122,7 @@ bot.use({
                         proto: { }
                     }, new protos.CMsgGCCStrike15_v2_ClientReportPlayer({
                         accountId: new steamID(process.argv[3]).accountid,
-                        matchId: 8,
+                        matchId: matchid,
                         rptAimbot: 2,
                         rptWallhack: 3,
                         rptSpeedhack: 4,

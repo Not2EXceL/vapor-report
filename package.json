@@ -14,6 +14,7 @@
     "protobufjs": "^5.0.1",
     "steam-totp": "^1.4.0",
     "steamid": "^1.1.0",
-    "vapor": "^1.3.0"
+    "vapor": "^1.3.0",
+    "csgo": "^1.5.4"
   }
 }
